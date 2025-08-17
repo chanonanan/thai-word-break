@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Thai Word Breaker (EPUB)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Thai Word Breaker (EPUB, in-browser)</h1>
+
+  <div class="row">
+    <label><input type="radio" name="mode" value="zwsp" checked> Insert ZWSP (recommended)</label>
+    <label><input type="radio" name="mode" value="wbr"> Insert &lt;wbr&gt;</label>
+  </div>
+
+  <div class="row">
+    <label>Skip tags (comma):
+      <input id="skipTags" type="text" value="script,style,code,pre,math,svg,title,textarea">
+    </label>
+  </div>
+
+  <details>
+    <summary>Dictionary & cache settings</summary>
+    <div class="row">
+      <label>Dict URL:
+        <input id="dictUrl" type="text"
+               value="https://cdn.jsdelivr.net/gh/PyThaiNLP/pythainlp@dev/pythainlp/corpus/words_th.txt">
+      </label>
+      <span class="small">Tip: jsDelivr often avoids CORS issues.</span>
+    </div>
+    <div class="row">
+      <label>Cache days:
+        <input id="cacheDays" type="number" min="1" value="30" style="width:90px">
+      </label>
+      <button id="refreshBtn" class="primary">Refresh cache now</button>
+      <span id="cacheInfo" class="small"></span>
+    </div>
+    <div class="row">
+      <label><input id="useLocalDict" type="checkbox"> Use local dictionary (override)</label>
+      <input id="dictFile" type="file" accept=".txt">
+      <span class="small">UTF-8, one word per line</span>
+    </div>
+  </details>
+
+  <div id="drop" class="drop">
+    <p><strong>Drop an .epub file here</strong> or <input id="file" type="file" accept=".epub"></p>
+    <p class="small">Everything runs locally in your browser.</p>
+  </div>
+
+  <div class="row">
+    <button id="processBtn" class="primary" disabled>Process EPUB</button>
+    <button id="downloadBtn" disabled>Download Processed EPUB</button>
+    <span id="status" class="small"></span>
+  </div>
+
+  <div id="progressSection" style="display: none;">
+    <div class="progress-bar">
+      <div id="progressBar" class="progress-bar-fill"></div>
+    </div>
+  </div>
+
+  <div id="previewSection" style="display: none;">
+    <h3>Preview Processed Files</h3>
+    <div class="row">
+      <select id="fileSelect"></select>
+      <button id="previewBtn">Preview</button>
+      <label><input type="checkbox" id="showMarkers" checked> Show word break markers (-)</label>
+      <label><input type="checkbox" id="showOriginal"> Show original HTML</label>
+    </div>
+    <div class="row">
+      <label>Device preview:
+        <select id="devicePreview">
+          <option value="default">Default</option>
+          <option value="kindle">Kindle (600x800)</option>
+          <option value="paperwhite">Kindle Paperwhite (1072x1448)</option>
+          <option value="kobo-touch">Kobo Touch (600x800)</option>
+          <option value="kobo-touch-c">Kobo Touch C (600x800)</option>
+          <option value="kobo-mini">Kobo Mini (600x800)</option>
+          <option value="kobo-glo">Kobo Glo (768x1024)</option>
+          <option value="kobo-glo-hd">Kobo Glo HD (1072x1448)</option>
+          <option value="kobo-touch-2">Kobo Touch 2.0 (600x800)</option>
+          <option value="kobo-aura">Kobo Aura (758x1024)</option>
+          <option value="kobo-aura-hd">Kobo Aura HD (1080x1440)</option>
+          <option value="kobo-aura-h2o">Kobo Aura H2O (1080x1440)</option>
+          <option value="kobo-aura-h2o2-v1">Kobo Aura H2O Edition 2 v1 (1080x1440)</option>
+          <option value="kobo-aura-h2o2-v2">Kobo Aura H2O Edition 2 v2 (1080x1440)</option>
+          <option value="kobo-aura-one">Kobo Aura ONE (1404x1872)</option>
+          <option value="kobo-aura-one-le">Kobo Aura ONE Limited Edition (1404x1872)</option>
+          <option value="kobo-aura-ed2-v1">Kobo Aura Edition 2 v1 (600x800)</option>
+          <option value="kobo-aura-ed2-v2">Kobo Aura Edition 2 v2 (600x800)</option>
+          <option value="kobo-nia">Kobo Nia (600x800)</option>
+          <option value="kobo-clara-hd">Kobo Clara HD (1072x1448)</option>
+          <option value="kobo-forma">Kobo Forma (1440x1920)</option>
+          <option value="kobo-libra-h2o">Kobo Libra H2O (1264x1680)</option>
+          <option value="kobo-elipsa">Kobo Elipsa (1404x1872)</option>
+          <option value="kobo-sage">Kobo Sage (1440x1920)</option>
+          <option value="kobo-libra-2">Kobo Libra 2 (1264x1680)</option>
+          <option value="kobo-clara-2e">Kobo Clara 2E (1072x1448)</option>
+          <option value="kobo-elipsa-2e">Kobo Elipsa 2E (1404x1872)</option>
+          <option value="kobo-libra-colour">Kobo Libra Colour (1264x1680)</option>
+          <option value="kobo-clara-bw">Kobo Clara BW (1072x1448)</option>
+          <option value="kobo-clara-colour">Kobo Clara Colour (1072x1448)</option>
+          <option value="ipad">iPad (768x1024)</option>
+        </select>
+      </label>
+      <label>Font size:
+        <select id="fontSizePreview">
+          <option value="16">16px</option>
+          <option value="18">18px</option>
+          <option value="20">20px</option>
+          <option value="24">24px</option>
+          <option value="32">32px</option>
+        </select>
+      </label>
+      <label>Justify:
+        <select id="justifyPreview">
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+          <option value="justify">Justify</option>
+        </select>
+      </label>
+    </div>
+    <p class="small">Pink hyphens (-) indicate where word breaks (zero-width spaces) have been inserted.</p>
+    <div id="previewContent" class="preview-content"></div>
+  </div>
+
+  <div class="log" id="log"></div>
+
+  <!-- libs via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+
+
+</script>
+</body>
+</html>

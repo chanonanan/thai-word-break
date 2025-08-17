@@ -1,0 +1,160 @@
+body { 
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; 
+  margin: 2rem; 
+}
+.drop { 
+  border: 2px dashed #888; 
+  padding: 2rem; 
+  text-align: center; 
+  border-radius: 12px; 
+}
+.drop.drag { 
+  border-color: #06f; 
+  background: #f4f8ff; 
+}
+.row { 
+  display: flex; 
+  gap: 1rem; 
+  align-items: center; 
+  margin: 1rem 0; 
+  flex-wrap: wrap; 
+}
+.small { 
+  color:#555; 
+  font-size: .9rem; 
+}
+.log { 
+  white-space: pre-wrap; 
+  background: #111; 
+  color: #eee; 
+  padding: 1rem; 
+  border-radius: 8px; 
+  max-height: 260px; 
+  overflow: auto; 
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; 
+}
+button { 
+  padding: .6rem 1rem; 
+  border-radius: 8px; 
+  border: 1px solid #ccc; 
+  background: #fff; 
+  cursor: pointer; 
+}
+button.primary { 
+  background: #0a7cff; 
+  color: #fff; 
+  border-color: #0a7cff; 
+}
+button:disabled {
+  background: #eee !important;
+  color: #aaa !important;
+  border-color: #ccc !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+input[type="text"], input[type="number"] { 
+  padding: .5rem .6rem; 
+  border-radius: 8px; 
+  border: 1px solid #ccc; 
+  min-width: 320px; 
+}
+label { 
+  display: flex; 
+  gap: .5rem; 
+  align-items: center; 
+}
+
+select {
+  padding: .5rem .6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  min-width: 320px;
+}
+
+.preview-content {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-height: 400px;
+  overflow: auto;
+  background: #fff;
+  min-width: 200px;
+  min-height: 200px;
+  box-sizing: border-box;
+}
+
+.device-kindle { width: 600px; height: 800px; }
+.device-kobo { width: 758px; height: 1024px; }
+.device-kobo-clara { width: 300px; height: 400px; }
+.device-kobo-aura { width: 758px; height: 1024px; }
+.device-kobo-aura-hd { width: 1080px; height: 1440px; }
+.device-kobo-glo { width: 768px; height: 1024px; }
+.device-kobo-h2o { width: 1080px; height: 1440px; }
+.device-kobo-h2o2 { width: 1080px; height: 1440px; }
+.device-kobo-forma { width: 1440px; height: 1920px; }
+.device-kobo-libra { width: 1264px; height: 1680px; }
+.device-kobo-sage { width: 1440px; height: 1920px; }
+.device-kobo-elipsa { width: 1404px; height: 1872px; }
+.device-kobo-touch,
+.device-kobo-touch-c,
+.device-kobo-mini,
+.device-kobo-touch-2,
+.device-kobo-aura-ed2-v1,
+.device-kobo-aura-ed2-v2,
+.device-kobo-nia { width: 600px; height: 800px; }
+
+.device-kobo-glo { width: 768px; height: 1024px; }
+.device-kobo-aura { width: 758px; height: 1024px; }
+
+.device-kobo-glo-hd,
+.device-kobo-clara-hd,
+.device-kobo-clara-2e,
+.device-kobo-clara-bw,
+.device-kobo-clara-colour { width: 1072px; height: 1448px; }
+
+.device-kobo-aura-hd,
+.device-kobo-aura-h2o,
+.device-kobo-aura-h2o2-v1,
+.device-kobo-aura-h2o2-v2 { width: 1080px; height: 1440px; }
+
+.device-kobo-aura-one,
+.device-kobo-aura-one-le,
+.device-kobo-elipsa,
+.device-kobo-elipsa-2e { width: 1404px; height: 1872px; }
+
+.device-kobo-forma,
+.device-kobo-sage { width: 1440px; height: 1920px; }
+
+.device-kobo-libra-h2o,
+.device-kobo-libra-2,
+.device-kobo-libra-colour { width: 1264px; height: 1680px; }
+
+.justify-left { text-align: left; }
+.justify-center { text-align: center; }
+.justify-right { text-align: right; }
+.justify-justify { text-align: justify; }
+
+.zwsp-marker {
+  color: #ff4081;
+  font-weight: bold;
+  font-size: 0.8em;
+  opacity: 0.7;
+  user-select: none;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #0a7cff;
+  width: 0;
+  transition: width 0.3s ease;
+}
